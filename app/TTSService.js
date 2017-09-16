@@ -18,11 +18,11 @@ exports.Synthesize = function Synthesize(arg){
     var apiKey = "fd069834defd4bdca5f366265b1577ea";
     var ssml_doc = xmlbuilder.create('speak')
         .att('version', '1.0')
-        .att('xml:lang', 'en-us')
+        .att('xml:lang', 'en-GB')
         .ele('voice')
-        .att('xml:lang', 'en-us')
+        .att('xml:lang', 'en-GB')
         .att('xml:gender', 'Female')
-        .att('name', 'Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)')
+        .att('name', 'Microsoft Server Speech Text to Speech Voice (en-GB, Susan, Apollo)')
         .txt(arg)
         .end();
     var post_speak_data = ssml_doc.toString();
