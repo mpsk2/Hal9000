@@ -168,6 +168,10 @@ function detectAction(luisRes) {
             'movement': 'SayHello',
             'response': "Hello! It's great to see you"
         },
+        'HowAreYou': {
+            'movement': null,
+            'response': "I'm fine. Thank you sir. And you?"
+        }
         'Request': {
             'movement': 'HandsUp',
             'response': "Whatever you ask, sir."
@@ -249,6 +253,7 @@ app.get('/luis', function(req, res) {
   LUIS(req.query.q, function(err, luisres) {
       if(err) return console.log(err);
 
+        console.log(luisres);
         var action = detectAction(luisres);
         if (action.movement) {
             sendActionToRobot(action.movement);
