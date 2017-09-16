@@ -49,13 +49,10 @@ function speechToText(filename, accessToken, callback) {
     request.post({
       url: 'https://speech.platform.bing.com/speech/recognition/interactive/cognitiveservices/v1',
       qs: {
-        //'appid': '31b3d95b-af74-4550-9619-de76fe33f0f0',
-        //'D4D52672-91D7-4C74-8AD8-42B1D98141A5',// Using Bing Speech service
         'language': 'en-US',
         'locale': 'en-US',
         'format': 'json',
         'requestid': '1d4b6030-9099-11e0-91e4-0800200c9a66'
-        //'instanceid': '1d4b6030-9099-11e0-91e4-0800200c9a66'
       },
       body: waveData,
       headers: {
@@ -75,12 +72,12 @@ function speechToText(filename, accessToken, callback) {
 }
 
 function LUIS(query, callback) {
-  console.log('call brother luis');
     request.get({
       url: 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/4c093489-e725-48c6-b675-aa6281bc4cf9',
       qs: {
-        'subscription-key': 'a58b814c31ce4c74b7d33e37be1aeea6', // LUIS Subscription ID
-        'q': query
+        'subscription-key': 'a58b814c31ce4c74b7d33e37be1aeea6',
+        'q': query,
+        'staging': true
       }
     }, function(err, resp, body) {
       if(err) return callback(err);
@@ -124,6 +121,7 @@ function sendActionToRobot(action) {
 
 
 app.post('/recognize', function(req, res) {
+
   var busboy = new Busboy({ headers: req.headers });
   busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
       savedFile = path.join(os.tmpDir(), 'test.wav');
@@ -138,25 +136,21 @@ app.post('/recognize', function(req, res) {
           console.log('Got access token: ' + accessToken);
           speechToText(savedFile, accessToken, function(err, speechres) {
               if(err) return console.log(err);
-              console.log(speechres);
-              console.log(speechres.DisplayText);
-              res.status(200).send(speechres.DisplayTex);
+              res.status(200).send(String(speechres.DisplayText));
 
               var action = detectAction();
               sendActionToRobot(action);
           });
       })
-    
+
   });
 
   req.pipe(busboy);
 });
 
 app.get('/luis', function(req, res) {
-  console.log(req.query.q);
   LUIS(req.query.q, function(err, luisres) {
       if(err) return console.log(err);
-        console.log(luisres);
         res.status(200).send(luisres);
     });
 });
