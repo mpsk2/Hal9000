@@ -112,12 +112,61 @@ function initRobotSubprocess() {
     return child;
 }
 
+
+function getWeatherForecast() {
+    return "It looks like it will rain today...";
+}
+
 function detectAction(luisRes) {
     var intent = luisRes['topScoringIntent']['intent'];
-    if (intent == 'Bring') {
-        return 'ShakingHands';
+    var intent_mappings = {
+        'BadJob': {
+            'movement': 'Scared',
+            'response': "I'm disappointed that you're not satisfied with my job..."
+        },
+        'Bring': {
+            'movement': 'SayNo',
+            'response': "Sir, I apologize, but it's not healthy to drink that much alcohol."
+        },
+        'Exit': {
+            'movement': 'ShakingHands',
+            'response': "I never like to see you go, my friend. Can't wait to see you next time"
+        },
+        'GoodJob': {
+            'movement': 'Excited',
+            'response': "Woohoo! I'm always here to serve you. How else can I help you?"
+        },
+        'Hello': {
+            'movement': 'SayHello',
+            'response': "Hello! It's great to see you"
+        },
+        'Request': {
+            'movement': 'HandsUp',
+            'response': "Whatever you ask, sir."
+        },
+        'Weather.GetCondition': function() {
+            return {
+                'movement': null,
+                'response': getWeatherForecast()
+            };
+        },
+        'Weather.GetForecast': function() {
+            return {
+                'movement': null,
+                'response': getWeatherForecast()
+            };
+        },
+        'None': {
+            'movement': 'NoClue',
+            'response': "I'm not stupid, I just couldn't understand that. Could you be more precise?"
+        }
+    };
+    var intent_func_or_dict = intent_mappings['None'];
+    if (intent_mappings[intent]) intent_func_or_dict = intent_mappings[intent];
+    if (typeof intent_func_or_dict === "function") {
+        return intent_func_or_dict();
     }
-    return 'Excited';
+    return intent_func_or_dict
 }
 
 function sendActionToRobot(action) {
@@ -134,6 +183,9 @@ function sendActionToRobot(action) {
 
 }
 
+function textToSpeech(text) {
+    // TODO: textToSpeech
+}
 
 app.post('/recognize', function(req, res) {
 
@@ -165,7 +217,10 @@ app.get('/luis', function(req, res) {
       if(err) return console.log(err);
 
         var action = detectAction(luisres);
-        sendActionToRobot(action);
+        if (action.movement) {
+            sendActionToRobot(action.movement);
+        }
+        textToSpeech(action.response);
 
         res.status(200).send(luisres);
     });
