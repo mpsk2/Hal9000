@@ -85,14 +85,14 @@ class RobotArm(Thread):
         self.robot_mover.move_robot(self.arm, self.command)
 
 
-commandsOneHand = {
+commands_one_hand = {
     'IKillYou': 11.266000032424927,
     'Kiss': 3.437999963760376,
     'SayHello': 10.531000137329102,
     'SayNo': 5.5,
     'ShakingHands': 5.546999931335449,
 }
-commandsTwoHands = {
+commands_two_hands = {
     'Anger': 4.375,
     'Contempt': 3.921999931335449,
     'Excited': 10.57800006866455,
@@ -110,11 +110,11 @@ commandsTwoHands = {
 
 def parse_command(command, robot_mover):
     command = command.strip()
-    if command in commandsOneHand:
+    if command in commands_one_hand:
         arm = RobotArm(robot_mover, command, slide['right'])
         arm.start()
         arm.join()
-    elif command in commandsTwoHands:
+    elif command in commands_two_hands:
         left = RobotArm(robot_mover, command, slide['left'])
         right = RobotArm(robot_mover, command, slide['right'])
         left.start()
@@ -143,6 +143,11 @@ def command(cmd):
         return jsonify({'error': str(ex)})
     else:
         return jsonify({'time': end - start})
+
+
+@app.route('/times')
+def times():
+    return jsonify(dict(commands_one_hand, **commands_two_hands))
 
 
 if __name__ == '__main__':
