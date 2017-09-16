@@ -80,13 +80,13 @@ class RobotArm(Thread):
     command = None
     arm = None
 
-    def __init__(self, command='None', arm=Side.left):
+    def __init__(self, robotMover, command='None', arm=Side.left):
         self.command = command
         self.arm = arm
         Thread.__init__(self)
 
     def run(self):
-        RobotMover().move_robot(self.arm, self.command)
+        robotMover.move_robot(self.arm, self.command)
 
 
 
@@ -114,25 +114,27 @@ commandsTwoHands = [
 "Scared",
 ]
 
-def parse_command(line):
+
+def parse_command(line, robotMover):
     command = line.strip()
     if command in commandsOneHand:
-        arm = RobotArm(command, Side.right)
+        arm = RobotArm(robotMover, command, Side.right)
         arm.start()
         arm.join()
     elif command in commandsTwoHands:
-        left = RobotArm(command, Side.left)
-        right = RobotArm(command, Side.right)
+        left = RobotArm(robotMover, command, Side.left)
+        right = RobotArm(robotMover, command, Side.right)
         left.start()
         right.start()
         left.join()
         right.join()
     else:
         print('INVALID COMMAND: ' + command)
-        parse_command('NoClue')
+        parse_command('NoClue', robotMover)
 
 
 if __name__ == '__main__':
+    robotMover = RobotMover()
     for line in fileinput.input():
-        parse_command(line)
+        parse_command(line, robotMover)
 
