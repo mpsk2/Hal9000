@@ -162,7 +162,7 @@ function getWeatherForecast() {
          res = "It looks like it will rain today...";
         luisAction({
             'response': res,
-            'movement': null,
+            'movement': 'Contempt',
         });
     });
 }
@@ -191,7 +191,7 @@ function doAction(luisRes) {
             'response': "Hello! It's great to see you"
         },
         'HowAreYou': {
-            'movement': null,
+            'movement': 'Happy',
             'response': "I'm fine. Thank you sir. And you?"
         },
         'Request': {
