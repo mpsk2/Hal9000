@@ -54,7 +54,7 @@
         // PROCESS THE JSON FOR INTENT AND ENTITIES
         // TODO (LJ): HANDLE OUR INTENTS!!!!
 
-        $("#txtIntent").val(buildString);
+        //$("#txtIntent").val(buildString);
 
     };
 
@@ -75,7 +75,7 @@
         .fail(function() {
             $('#spinIntent').css('visibility', 'hidden');
             $('#spinPhrase').css('visibility', 'hidden');
-            $("#txtIntent").val("I'm sorry, I encountered an error while deducing your intent :(");
+            //$("#txtIntent").val("I'm sorry, I encountered an error while deducing your intent :(");
         });
     }
 
@@ -96,7 +96,7 @@
         $('#spinIntent').css('visibility', 'hidden');
         $('#spinPhrase').css('visibility', 'hidden');
         $("#txtPhrase").val("");
-        $("#txtIntent").val("");
+        //$("#txtIntent").val("");
 
         // START CLIENT SIDE AUDIO RECORDING PROCESS
         if (!audioRecorder) return;
@@ -169,9 +169,30 @@
             });
     };
 
-
     function main() {
         initAudio();
+        // Grab elements, create settings, etc.
+        var video = document.getElementById('video');
+
+        // Get access to the camera!
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Not adding `{ audio: true }` since we only want video now
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+            });
+        }
+        // Trigger photo take
+        document.getElementById("snap").addEventListener("click", function() {
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+            var video = document.getElementById('video');
+
+            context.drawImage(video, 0, 0, 390, 280);
+            var pngUrl = canvas.toDataURL('image/jpeg', 1.0);
+            console.log(pngUrl);
+        });
+
     };
 
     window.addEventListener('load', main);
