@@ -171,7 +171,6 @@
 
 
     function main() {
-        setupGridData();
         initAudio();
     };
 
