@@ -1,11 +1,12 @@
+from enum import Enum
 import requests
 from requests.auth import HTTPDigestAuth
 import time
 from threading import Thread
-
+import fileinput
 
 class RobotMover(object):
-    def __init__(self, host='13.95.29.162', user='Default User', password='robotics'):
+    def __init__(self, host='13.93.10.114', user='Default User', password='robotics'):
         self.host = host
         self.user = user
         self.password = password
@@ -70,13 +71,68 @@ class RobotMover(object):
 # the trick seems to run both arms in parralel because of the
 # waitAsyncTask directive in the RAPID code
 
+class Side(Enum):
+    left = 'T_ROB_L'
+    right = 'T_ROB_R'
 
-class otherArm(Thread):
+
+class RobotArm(Thread):
+    command = None
+    arm = None
+
+    def __init__(self, command='None', arm=Side.left):
+        self.command = command
+        self.arm = arm
+        Thread.__init__(self)
+
     def run(self):
-        RobotMover().move_robot('T_ROB_L', 'NoClue')
+        RobotMover().move_robot(self.arm, self.command)
+
+
+
+commandsOneHand = [
+"Kiss",
+"SayHello",
+"SayNo",
+"ShakingHands",
+"IKillYou",
+]
+
+commandsTwoHands = [
+"Home",
+"Contempt",
+"NoClue",
+"HandsUp",
+"Surprised",
+"ToDiss",
+"Anger",
+"Excited",
+"GiveMeAHug",
+"GoAway",
+"Happy",
+"Powerful",
+"Scared",
+]
+
+def parse_command(line):
+    command = line.strip()
+    if command in commandsOneHand:
+        arm = RobotArm(command, Side.right)
+        arm.start()
+        arm.join()
+    elif command in commandsTwoHands:
+        left = RobotArm(command, Side.left)
+        right = RobotArm(command, Side.right)
+        left.start()
+        right.start()
+        left.join()
+        right.join()
+    else:
+        print('INVALID COMMAND: ' + command)
+        parse_command('NoClue')
 
 
 if __name__ == '__main__':
-    other = otherArm()
-    other.start()
-    RobotMover().move_robot('T_ROB_R', 'NoClue')
+    for line in fileinput.input():
+        parse_command(line)
+
