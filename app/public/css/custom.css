@@ -1,0 +1,60 @@
+@keyframes btnRecordColorCycle {
+     0% {
+       background-color: #FB274A;
+     }
+     50% {
+       background-color: #C71414;
+     }
+     100% {
+       background-color: #FB274A;
+     }
+}
+
+body {
+    background: #4286f4;
+}
+
+div.jumbotron {
+    background: white;
+}
+
+.btn_mic, .btn_mic:focus, .btn_mic:hover
+{
+    padding: 0;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 30px 0 0 30px !important;
+    background: #4286f4 url('../images/mic.png') no-repeat center center;
+    background-size: 30%;
+    border-style: none;
+    cursor: pointer;
+    text-transform: none;
+    border: 3px solid #ffffff;
+    margin-top: 20px;
+}
+
+.btnup {
+    box-shadow: 1px 4px 0 0 #A69992;
+    animation-name: none;
+}
+
+.btndown {
+	box-shadow: none;
+    margin-left: 1px;
+    margin-right: -1px;
+	margin-bottom: -4px;
+	margin-top: 4px;
+    animation-name: btnRecordColorCycle;
+    animation-duration: .7s;
+    animation-iteration-count: infinite;
+}
+
+.glyphicon-refresh-animate {
+    animation: spin .7s infinite linear;
+}
+
+@keyframes spin {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
