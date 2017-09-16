@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 
 class RobotMover(object):
-    def __init__(self, host='13.95.29.162', user='Default User', password='robotics'):
+    def __init__(self, host='13.93.10.114', user='Default User', password='robotics'):
         self.host = host
         self.user = user
         self.password = password
