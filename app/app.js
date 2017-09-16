@@ -94,24 +94,35 @@ function LUIS(query, callback) {
 // Microsoft Emotion API
 ////////////////////////
 
-const EMOTION_KEY_1 = "bad3ba09148644e5ac20250bd87a6c5a";
-const EMOTION_KEY_2 = "b8751f4fff674292a0fca0a8e260fcdb";
+const EMOTION_KEY_1 = "2dfea5dee037454ca1a887514b562150";
+const EMOTION_KEY_2 = "9229d4bcb63141cdae997744b4f9bfea";
 const EMOTION_ENDPOINT = "https://westus.api.cognitive.microsoft.com/emotion/v1.0";
 
-function imageToEmotion(imageUrl, apiKey, callback) {
-    request.post({
-        url: EMOTION_ENDPOINT + '/recognize',
+function imageToEmotion(imageUrl, accessToken, callback) {
+    var data = '{url: "' + imageUrl + '"}';
+
+    request.post(EMOTION_ENDPOINT + '/recognize', {
         headers: {
             'Content-Type': 'application/json',
-            'Ocp-Apim-Subscription-Key': apiKey
+            'Ocp-Apim-Subscription-Key': accessToken
         },
-        data: '{"url": "' + imageUrl + '"}'
+        body: data
     }, function(err, resp, body) {
        if (err) return callback(err);
-       alert(resp);
-       alert(body);
+       callback(null, resp);
     });
 }
+
+app.get('/emotion', function(req, res) {
+    var imageUrl = req.query.imageUrl;
+   imageToEmotion(imageUrl, EMOTION_KEY_1, function(err, emores) {
+       if (err) {
+           res.status(400).send(err);
+           return console.log(err);
+       }
+       res.status(200).send(String(emores.body));
+   });
+});
 
 ////////////////////////
 // End Microsoft Emotion API
