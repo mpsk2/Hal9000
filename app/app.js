@@ -223,7 +223,7 @@ function sendActionToRobot(action) {
 
     var port = 5000;
     request.get({
-        url: 'http://localhost:' + port + '/cmd/' + action,
+        url: 'http://localhost:' + port + '/cmds/' + action,
     }, function(err, resp, body) {
         if(err) {
             console.log('Encountered error when sending action to robot')
@@ -287,9 +287,5 @@ app.get('/tts', function(req, res){
     res.status(200).send(req.query.q);
 });
 
-
-
 app.listen(process.env.PORT || 3000);
 console.log("Running at Port 3000");
-
-robot_process = initRobotSubprocess();
