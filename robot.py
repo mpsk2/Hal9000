@@ -1,9 +1,12 @@
-import fileinput
+from flask import Flask
+from flask import jsonify
 import requests
 from requests.auth import HTTPDigestAuth
 import sys
 import time
 from threading import Thread
+
+app = Flask(__name__)
 
 
 class RobotMover(object):
@@ -123,14 +126,24 @@ def parse_command(command, robot_mover):
         parse_command('NoClue', robot_mover)
 
 
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        robot_mover = RobotMover(host=sys.argv[1])
-    else:
-        robot_mover = RobotMover()
 
-    for line in fileinput.input():
-        try:
-            parse_command(line, robot_mover)
-        except Exception as ex:
-            print(ex)
+if len(sys.argv) > 1:
+    robot_mover = RobotMover(host=sys.argv[1])
+else:
+    robot_mover = RobotMover()
+
+
+@app.route('/cmd/<cmd>')
+def command(cmd):
+    try:
+        start = time.time()
+        parse_command(cmd, robot_mover)
+        end = time.time()
+    except Exception as ex:
+        return jsonify({'error': str(ex)})
+    else:
+        return jsonify({'time': end - start})
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
