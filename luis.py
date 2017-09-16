@@ -34,6 +34,7 @@ class LUISManager(object):
             'q': query
         }
         r = requests.get(self.endpoint, params=params)
+        print r.url
         return Intent(r.json())
 
 

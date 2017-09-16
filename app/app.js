@@ -10,12 +10,15 @@ var fs = require('fs'),
     app = express(),
     path = require('path'),
     connect = require('connect'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    child_process = require('child_process');
 
 var clientId = 'test-app';   
 var clientSecret = 'fd069834defd4bdca5f366265b1577ea';
 //'ceb21dbbce474431ad3fc95b12a6cc90'; // API key from Bing Speech service
 var savedFile = null;
+
+var robot_process = null;
 
 function getAccessToken(clientId, clientSecret, callback) {
   //curl -v -X POST "https://api.cognitive.microsoft.com/sts/v1.0/issueToken" -H "Content-type: application/x-www-form-urlencoded" -H "Content-Length: 0" -H "Ocp-Apim-Subscription-Key: fd069834defd4bdca5f366265b1577ea
@@ -96,6 +99,30 @@ app.get('/', function(req, res) {
   res.sendFile('index.html');
 });
 
+
+function initRobotSubprocess() {
+    var child = child_process.spawn('python', ['../robot.py']);
+    child.on('error', function (err) {
+        console.log('child process error' + err);
+    });
+
+    child.on('exit', function (code, signal) {
+        console.log('child process exited with code ${code} and signal ${signal}');
+    });
+    return child;
+}
+
+function detectAction() {
+    return 'SayHello';
+}
+
+function sendActionToRobot(action) {
+    console.log('Sending action to robot: ' + action);
+    robot_process.stdin.write(action);
+    robot_process.stdin.end();
+}
+
+
 app.post('/recognize', function(req, res) {
   var busboy = new Busboy({ headers: req.headers });
   busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
@@ -114,11 +141,14 @@ app.post('/recognize', function(req, res) {
               console.log(speechres);
               console.log(speechres.DisplayText);
               res.status(200).send(speechres.DisplayTex);
-              
+
+              var action = detectAction();
+              sendActionToRobot(action);
           });
       })
     
   });
+
   req.pipe(busboy);
 });
 
@@ -134,3 +164,4 @@ app.get('/luis', function(req, res) {
 app.listen(process.env.PORT || 3000);
 console.log("Running at Port 3000");
 
+robot_process = initRobotSubprocess();
