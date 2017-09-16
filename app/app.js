@@ -171,7 +171,7 @@ function detectAction(luisRes) {
         'HowAreYou': {
             'movement': null,
             'response': "I'm fine. Thank you sir. And you?"
-        }
+        },
         'Request': {
             'movement': 'HandsUp',
             'response': "Whatever you ask, sir."
