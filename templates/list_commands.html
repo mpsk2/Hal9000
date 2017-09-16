@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commands</title>
+</head>
+<body>
+{% if commands %}
+  <table>
+      <thead>
+        <tr>
+            <th>Name/link</th>
+            <th>Time</th>
+            <th>Pick</th>
+        </tr>
+      </thead>
+      <tbody>
+    {% for command in commands %}
+        <tr>
+            <td><a href="/cmds/{{ command[0] }}">{{command[0]}}</a></td>
+            <td>{{ command[1][0] }} s</td>
+            <td>{{ command[1][1] }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+{% else %}
+  <h1>FAIL!!!!</h1>
+{% endif %}
+</body>
+</html>

@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import jsonify
+from flask import render_template
 import requests
 from requests.auth import HTTPDigestAuth
 import sys
@@ -86,27 +87,29 @@ class RobotArm(Thread):
 
 
 commands_one_hand = {
-    'IKillYou': 11.266000032424927,
-    'Kiss': 3.437999963760376,
-    'SayHello': 10.531000137329102,
-    'SayNo': 5.5,
-    'ShakingHands': 5.546999931335449,
+    'IKillYou': (11.266000032424927, False),
+    'Kiss': (3.437999963760376, False),
+    'SayHello': (10.531000137329102, True),
+    'SayNo': (5.5, True),
+    'ShakingHands': (5.546999931335449, False),
 }
 commands_two_hands = {
-    'Anger': 4.375,
-    'Contempt': 3.921999931335449,
-    'Excited': 10.57800006866455,
-    'GiveMeAHug': 10.203999996185303,
-    'GoAway': 9.031000137329102,
-    'HandsUp': 5.640999794006348,
-    'Happy': 11.07800006866455,
-    'Home': 0.5310001373291016,
-    'NoClue': 5.171999931335449,
-    'Powerful': 11.968999862670898,
-    'Scared': 7.7190001010894775,
-    'Surprised': 0.5309998989105225,
-    'ToDiss': 3.9070000648498535,
+    'Anger': (4.375, False),
+    'Contempt': (3.921999931335449, False),
+    'Excited': (10.57800006866455, True),
+    'GiveMeAHug': (10.203999996185303, False),
+    'GoAway': (9.031000137329102, False),
+    'HandsUp': (5.640999794006348, True),
+    'Happy': (11.07800006866455, True),
+    'Home': (0.5310001373291016, False),
+    'NoClue': (5.171999931335449, True),
+    'Powerful': (11.968999862670898, True),
+    'Scared': (7.7190001010894775, False),
+    'Surprised': (0.5309998989105225, False),
+    'ToDiss': (3.9070000648498535, True),
 }
+
+commands_all = dict(commands_two_hands, **commands_one_hand)
 
 def parse_command(command, robot_mover):
     command = command.strip()
@@ -133,7 +136,7 @@ else:
     robot_mover = RobotMover()
 
 
-@app.route('/cmd/<cmd>')
+@app.route('/cmds/<cmd>')
 def command(cmd):
     try:
         start = time.time()
@@ -144,6 +147,10 @@ def command(cmd):
     else:
         return jsonify({'time': end - start})
 
+
+@app.route('/cmds')
+def commands():
+    return render_template('list_commands.html', commands=sorted(commands_all.iteritems()))
 
 @app.route('/times')
 def times():
