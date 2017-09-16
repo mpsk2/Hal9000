@@ -89,6 +89,18 @@ function LUIS(query, callback) {
     });
 }
 
+////////////////////////
+// Microsoft Emotion API
+////////////////////////
+
+const EMOTION_KEY_1 = "bad3ba09148644e5ac20250bd87a6c5a";
+const EMOTION_KEY_2 = "b8751f4fff674292a0fca0a8e260fcdb";
+const EMOTION_ENDPPINT = "https://westus.api.cognitive.microsoft.com/emotion/v1.0";
+
+////////////////////////
+// End Microsoft Emotion API
+////////////////////////
+
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
