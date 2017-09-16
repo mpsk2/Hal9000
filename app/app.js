@@ -11,6 +11,7 @@ var fs = require('fs'),
     path = require('path'),
     connect = require('connect'),
     bodyParser = require('body-parser'),
+    tts = require('./TTSService.js'),
     child_process = require('child_process');
 
 var robot_process = null;
@@ -210,8 +211,13 @@ function sendActionToRobot(action) {
 
 }
 
-function textToSpeech(text) {
-    // TODO: textToSpeech
+function textToSpeech(query) {
+    tts.Synthesize(query);
+    try {
+        tts.Synthesize(query);
+    } catch(e) {
+        console.log(e);
+    }
 }
 
 app.post('/recognize', function(req, res) {
@@ -252,6 +258,13 @@ app.get('/luis', function(req, res) {
         res.status(200).send(luisres);
     });
 });
+
+app.get('/tts', function(req, res){
+    textToSpeech(req.query.q);
+    res.status(200).send(req.query.q);
+});
+
+
 
 app.listen(process.env.PORT || 3000);
 console.log("Running at Port 3000");
