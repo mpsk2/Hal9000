@@ -37,7 +37,6 @@ class RobotMover(object):
         payload = {'value': '"{text}"'.format(text=text)}
         url = '{url}/{arm}/Remote/{variable}?action=set'.format(url=self.url, arm=arm, variable=variable)
         r = self.session.post(url, data=payload)
-        print(url, r, r.text)
         assert (r.status_code == 204)
         return r
 
@@ -45,26 +44,19 @@ class RobotMover(object):
         payload = {'value': 'true' if state else 'false'}
         url = '{url}/{arm}/Remote/{variable}?action=set'.format(url=self.url, arm=arm, variable=variable)
         r = self.session.post(url, data=payload)
-        print(url, r, r.text)
         assert (r.status_code == 204)
         return r
 
     def move_robot(self, arm, action):
-        print("RUNNING:" + self.check(arm, 'bRunning'))
-
+        print(arm, action)
         self.set_string(arm, 'stName', action)
 
-        print("bStart:" + self.check(arm, 'bStart'))
-
         self.set_bool(arm, 'bStart', True)
-
-        print("bStart:" + self.check(arm, 'bStart'))
         time.sleep(0.5)
 
         running = self.check_bool(arm, 'bRunning')
         while running:
             running = self.check_bool(arm, 'bRunning')
-            print("RUNNING:" + str(running))
             time.sleep(0.4)
 
 
@@ -90,30 +82,28 @@ class RobotArm(Thread):
         self.robot_mover.move_robot(self.arm, self.command)
 
 
-commandsOneHand = [
-    "Kiss",
-    "SayHello",
-    "SayNo",
-    "ShakingHands",
-    "IKillYou",
-]
-
-commandsTwoHands = [
-    "Home",
-    "Contempt",
-    "NoClue",
-    "HandsUp",
-    "Surprised",
-    "ToDiss",
-    "Anger",
-    "Excited",
-    "GiveMeAHug",
-    "GoAway",
-    "Happy",
-    "Powerful",
-    "Scared",
-]
-
+commandsOneHand = {
+    'IKillYou': 11.266000032424927,
+    'Kiss': 3.437999963760376,
+    'SayHello': 10.531000137329102,
+    'SayNo': 5.5,
+    'ShakingHands': 5.546999931335449,
+}
+commandsTwoHands = {
+    'Anger': 4.375,
+    'Contempt': 3.921999931335449,
+    'Excited': 10.57800006866455,
+    'GiveMeAHug': 10.203999996185303,
+    'GoAway': 9.031000137329102,
+    'HandsUp': 5.640999794006348,
+    'Happy': 11.07800006866455,
+    'Home': 0.5310001373291016,
+    'NoClue': 5.171999931335449,
+    'Powerful': 11.968999862670898,
+    'Scared': 7.7190001010894775,
+    'Surprised': 0.5309998989105225,
+    'ToDiss': 3.9070000648498535,
+}
 
 def parse_command(command, robot_mover):
     command = command.strip()
@@ -138,6 +128,7 @@ if __name__ == '__main__':
         robot_mover = RobotMover(host=sys.argv[1])
     else:
         robot_mover = RobotMover()
+
     for line in fileinput.input():
         try:
             parse_command(line, robot_mover)
