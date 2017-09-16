@@ -13,12 +13,12 @@ var fs = require('fs'),
     bodyParser = require('body-parser'),
     child_process = require('child_process');
 
+var robot_process = null;
+
 var clientId = 'test-app';   
 var clientSecret = 'fd069834defd4bdca5f366265b1577ea';
 //'ceb21dbbce474431ad3fc95b12a6cc90'; // API key from Bing Speech service
 var savedFile = null;
-
-var robot_process = null;
 
 function getAccessToken(clientId, clientSecret, callback) {
   //curl -v -X POST "https://api.cognitive.microsoft.com/sts/v1.0/issueToken" -H "Content-type: application/x-www-form-urlencoded" -H "Content-Length: 0" -H "Ocp-Apim-Subscription-Key: fd069834defd4bdca5f366265b1577ea
@@ -99,24 +99,39 @@ app.get('/', function(req, res) {
 
 function initRobotSubprocess() {
     var child = child_process.spawn('python', ['../robot.py']);
+    var logStream = fs.createWriteStream('./robot_subprocess.log', {flags: 'a'});
+    child.stdout.pipe(logStream);
+    child.stderr.pipe(logStream);
+
     child.on('error', function (err) {
         console.log('child process error' + err);
     });
-
     child.on('exit', function (code, signal) {
-        console.log('child process exited with code ${code} and signal ${signal}');
+        console.log('child process exited with code ' + code + ' and signal ' + signal);
     });
     return child;
 }
 
-function detectAction() {
-    return 'SayHello';
+function detectAction(luisRes) {
+    var intent = luisRes['topScoringIntent']['intent'];
+    if (intent == 'Bring') {
+        return 'ShakingHands';
+    }
+    return 'Excited';
 }
 
 function sendActionToRobot(action) {
     console.log('Sending action to robot: ' + action);
-    robot_process.stdin.write(action);
-    robot_process.stdin.end();
+
+    var port = 5000;
+    request.get({
+        url: 'http://localhost:' + port + '/cmd/' + action,
+    }, function(err, resp, body) {
+        if(err) {
+            console.log('Encountered error when sending action to robot')
+        }
+    });
+
 }
 
 
@@ -137,9 +152,6 @@ app.post('/recognize', function(req, res) {
           speechToText(savedFile, accessToken, function(err, speechres) {
               if(err) return console.log(err);
               res.status(200).send(String(speechres.DisplayText));
-
-              var action = detectAction();
-              sendActionToRobot(action);
           });
       })
 
@@ -151,6 +163,10 @@ app.post('/recognize', function(req, res) {
 app.get('/luis', function(req, res) {
   LUIS(req.query.q, function(err, luisres) {
       if(err) return console.log(err);
+
+        var action = detectAction(luisres);
+        sendActionToRobot(action);
+
         res.status(200).send(luisres);
     });
 });
