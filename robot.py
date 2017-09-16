@@ -1,12 +1,13 @@
-from enum import Enum
+import fileinput
 import requests
 from requests.auth import HTTPDigestAuth
+import sys
 import time
 from threading import Thread
-import fileinput
+
 
 class RobotMover(object):
-    def __init__(self, host='13.93.10.114', user='Default User', password='robotics'):
+    def __init__(self, host='13.95.29.162', user='Default User', password='robotics'):
         self.host = host
         self.user = user
         self.password = password
@@ -24,10 +25,9 @@ class RobotMover(object):
         assert (resp.status_code == 200)
 
     def check(self, arm, variable):
-        print(self.host)
-        r = self.session.get('{url}/{arm}/Remote/{variable}?json=1'
-                             .format(url=self.url, arm=arm, variable=variable))
-        assert (r.status_code == 200)
+        url = '{url}/{arm}/Remote/{variable}?json=1'.format(url=self.url, arm=arm, variable=variable)
+        r = self.session.get(url)
+        assert r.status_code == 200, (r, r.content, url)
         return r.json()['_embedded']['_state'][0]['value']
 
     def check_bool(self, arm, variable):
@@ -71,70 +71,75 @@ class RobotMover(object):
 # the trick seems to run both arms in parralel because of the
 # waitAsyncTask directive in the RAPID code
 
-class Side(Enum):
-    left = 'T_ROB_L'
-    right = 'T_ROB_R'
+
+slide = {
+    'left': 'T_ROB_L',
+    'right': 'T_ROB_R',
+}
 
 
 class RobotArm(Thread):
-    command = None
-    arm = None
-
-    def __init__(self, robotMover, command='None', arm=Side.left):
+    def __init__(self, robot_mover, command='None', arm=slide['left']):
         self.command = command
         self.arm = arm
         Thread.__init__(self)
 
-    def run(self):
-        robotMover.move_robot(self.arm, self.command)
+        self.robot_mover = robot_mover
 
+    def run(self):
+        self.robot_mover.move_robot(self.arm, self.command)
 
 
 commandsOneHand = [
-"Kiss",
-"SayHello",
-"SayNo",
-"ShakingHands",
-"IKillYou",
+    "Kiss",
+    "SayHello",
+    "SayNo",
+    "ShakingHands",
+    "IKillYou",
 ]
 
 commandsTwoHands = [
-"Home",
-"Contempt",
-"NoClue",
-"HandsUp",
-"Surprised",
-"ToDiss",
-"Anger",
-"Excited",
-"GiveMeAHug",
-"GoAway",
-"Happy",
-"Powerful",
-"Scared",
+    "Home",
+    "Contempt",
+    "NoClue",
+    "HandsUp",
+    "Surprised",
+    "ToDiss",
+    "Anger",
+    "Excited",
+    "GiveMeAHug",
+    "GoAway",
+    "Happy",
+    "Powerful",
+    "Scared",
 ]
 
 
-def parse_command(line, robotMover):
-    command = line.strip()
+def parse_command(command, robot_mover):
+    command = command.strip()
     if command in commandsOneHand:
-        arm = RobotArm(robotMover, command, Side.right)
+        arm = RobotArm(robot_mover, command, slide['right'])
         arm.start()
         arm.join()
     elif command in commandsTwoHands:
-        left = RobotArm(robotMover, command, Side.left)
-        right = RobotArm(robotMover, command, Side.right)
+        left = RobotArm(robot_mover, command, slide['left'])
+        right = RobotArm(robot_mover, command, slide['right'])
         left.start()
         right.start()
         left.join()
         right.join()
     else:
         print('INVALID COMMAND: ' + command)
-        parse_command('NoClue', robotMover)
+        parse_command('NoClue', robot_mover)
 
 
 if __name__ == '__main__':
-    robotMover = RobotMover()
+    if len(sys.argv) > 1:
+        robot_mover = RobotMover(host=sys.argv[1])
+    else:
+        robot_mover = RobotMover()
     for line in fileinput.input():
-        parse_command(line, robotMover)
-
+        try:
+            parse_command(line, robot_mover)
+        except Exception as ex:
+            print(ex)
