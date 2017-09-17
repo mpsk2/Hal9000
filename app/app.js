@@ -142,9 +142,28 @@ app.post('/emotion', function(req, res) {
         var scores = data[0].scores;
         var bestScoredEmotion = Object.keys(scores).reduce(function(a, b){ return scores[a] > scores[b] ? a : b });
         console.log('Best scored emotion: ' + bestScoredEmotion);
+        reactToEmotion(bestScoredEmotion);
         res.status(200).send(emores.body);
     });
 });
+
+
+function reactToEmotion(emotion) {
+    var action = null;
+    if (emotion == 'happiness') {
+        action = {
+            'movement': 'Happy',
+            'response': "I see you're feeling good"
+        };
+    }
+    else {
+        action = {
+            'movement': 'NoClue',
+            'response': "You seem to be burdened with something, Sir. Want me to tell you a joke?"
+        };
+    }
+    luisAction(action);
+}
 
 ////////////////////////
 // End Microsoft Emotion API
@@ -266,7 +285,6 @@ function sendActionToRobot(action) {
 }
 
 function textToSpeech(query) {
-    tts.Synthesize(query);
     try {
         tts.Synthesize(query);
     } catch(e) {
