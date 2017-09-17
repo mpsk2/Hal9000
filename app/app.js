@@ -125,15 +125,24 @@ function imageToEmotion(imageData, accessToken, callback) {
     });
 }
 
-app.get('/emotion', function(req, res) {
-    var image64 = req.query.imageBase64;
+app.use(bodyParser.urlencoded({
+    extended: true,
+    limit: '50mb'
+}));
+app.use(bodyParser.json());
+app.post('/emotion', function(req, res) {
+    var image64 = req.body.imageBase64;
     var image = decodeBase64Image(image64);
     imageToEmotion(image, EMOTION_KEY_1, function(err, emores) {
         if (err) {
             res.status(400).send(err);
             return console.log(err);
         }
-        res.status(200).send(String(emores.body));
+        var data = JSON.parse(emores.body);
+        var scores = data[0].scores;
+        var bestScoredEmotion = Object.keys(scores).reduce(function(a, b){ return scores[a] > scores[b] ? a : b });
+        console.log('Best scored emotion: ' + bestScoredEmotion);
+        res.status(200).send(emores.body);
     });
 });
 

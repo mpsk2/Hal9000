@@ -189,8 +189,13 @@
             var video = document.getElementById('video');
 
             context.drawImage(video, 0, 0, 390, 280);
-            var pngUrl = canvas.toDataURL('image/jpeg', 1.0);
-            console.log(pngUrl);
+            var imageBase64 = canvas.toDataURL('image/jpeg', 1.0);
+
+            $.post('/emotion', {
+                imageBase64: imageBase64
+            }, function(result) {
+                console.log(result);
+            });
         });
 
     };
