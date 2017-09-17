@@ -9,6 +9,8 @@ from threading import Thread
 
 app = Flask(__name__)
 
+ROBOT_IP = '172.20.0.224'
+
 
 class RobotMover(object):
     def __init__(self, host='13.93.10.114', user='Default User', password='robotics'):
