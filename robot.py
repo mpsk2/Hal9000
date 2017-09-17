@@ -13,7 +13,7 @@ ROBOT_IP = '172.20.0.224'
 
 
 class RobotMover(object):
-    def __init__(self, host='13.93.10.114', user='Default User', password='robotics'):
+    def __init__(self, host='127.0.0.1', user='Default User', password='robotics'):
         self.host = host
         self.user = user
         self.password = password
@@ -43,7 +43,7 @@ class RobotMover(object):
         payload = {'value': '"{text}"'.format(text=text)}
         url = '{url}/{arm}/Remote/{variable}?action=set'.format(url=self.url, arm=arm, variable=variable)
         r = self.session.post(url, data=payload)
-        assert (r.status_code == 204)
+        assert r.status_code == 204, r.content
         return r
 
     def set_bool(self, arm, variable, state):
@@ -140,6 +140,7 @@ else:
 
 @app.route('/cmds/<cmd>')
 def command(cmd):
+    print(cmd)
     try:
         start = time.time()
         parse_command(cmd, robot_mover)
@@ -160,4 +161,4 @@ def times():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, host='0.0.0.0')
