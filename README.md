@@ -1,4 +1,4 @@
-# EMQL
+# Hal9000
 
 ## Table of content
 
