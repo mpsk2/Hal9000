@@ -1,0 +1,1228 @@
+{
+  "luis_schema_version": "2.1.0",
+  "versionId": "0.1",
+  "name": "hal9000",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "BadJob"
+    },
+    {
+      "name": "Bring"
+    },
+    {
+      "name": "Exit"
+    },
+    {
+      "name": "GoodJob"
+    },
+    {
+      "name": "Hello"
+    },
+    {
+      "name": "HowAreYou"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "Request"
+    },
+    {
+      "name": "Weather.GetCondition",
+      "inherits": {
+        "domain_name": "Weather",
+        "model_name": "GetCondition"
+      }
+    },
+    {
+      "name": "Weather.GetForecast",
+      "inherits": {
+        "domain_name": "Weather",
+        "model_name": "GetForecast"
+      }
+    }
+  ],
+  "entities": [
+    {
+      "name": "Drinks.Drink"
+    },
+    {
+      "name": "Weather.Location",
+      "inherits": {
+        "domain_name": "Weather",
+        "model_name": "Location"
+      }
+    }
+  ],
+  "composites": [
+    {
+      "name": "Drinks.DrinkNumber",
+      "children": [
+        "Drinks.Drink",
+        "number"
+      ]
+    }
+  ],
+  "closedLists": [],
+  "bing_entities": [
+    "encyclopedia",
+    "geography",
+    "number",
+    "temperature"
+  ],
+  "actions": [],
+  "model_features": [
+    {
+      "name": "Beer",
+      "mode": true,
+      "words": "beer,vodka,champagne,whiskey,red wine,white wine,sparkling wine,ale,cider,alcohol,cocktails,drink",
+      "activated": true
+    }
+  ],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "hello",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "abc",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "fuck you",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "good job",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "good morning",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "a",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "good afternoon",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "how are you?",
+      "intent": "HowAreYou",
+      "entities": []
+    },
+    {
+      "text": "how are you today?",
+      "intent": "HowAreYou",
+      "entities": []
+    },
+    {
+      "text": "good evening",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "thank you.",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "give me a beer",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 10,
+          "endPos": 13
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 8,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "i want a beer",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 9,
+          "endPos": 12
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 7,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "hello.",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "how are you doing",
+      "intent": "HowAreYou",
+      "entities": []
+    },
+    {
+      "text": "hola",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "gracias",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "bye bye",
+      "intent": "Exit",
+      "entities": []
+    },
+    {
+      "text": "that's all",
+      "intent": "Exit",
+      "entities": []
+    },
+    {
+      "text": "you are awesome",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "you are stupid",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "you are very intelligent",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "will it snow today",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "it was a pleasure working with you",
+      "intent": "Exit",
+      "entities": []
+    },
+    {
+      "text": "testing.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i like you",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "i don't understand",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "i want to drink a beer",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 18,
+          "endPos": 21
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 16,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "what do you want",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i hate you.",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "you are very helpful",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "get me a beer",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 9,
+          "endPos": 12
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 7,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "are you sure?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "aa",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "thank you for your help",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "it was great",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "are you crazy?",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "bring me a beer",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 11,
+          "endPos": 14
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 9,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "will it rain this weekend",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "home.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "see you next time",
+      "intent": "Exit",
+      "entities": []
+    },
+    {
+      "text": "what's the weather like right now?",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "what is the weather like right now?",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "you are a shit",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "what's the weather forecast for today?",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "jackson",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "youtube.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "hello hal.",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "hello hal",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "i don't understand.",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "can you bring me a beer?",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 19,
+          "endPos": 22
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 17,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "hi hal",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "could you give me a beer?",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 20,
+          "endPos": 23
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 18,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "you are not helpful at all",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "Get the daily temperature greenwood indiana",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 26,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "do fl residents usually need ice scrapers",
+      "intent": "Weather.GetCondition",
+      "entities": []
+    },
+    {
+      "text": "how much rain does chambersburg get a year",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 19,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "show average rainfall for boise",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "Get florence temperature in september",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 4,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "what to wear in march in california",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 25,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "current weather ?",
+      "intent": "Weather.GetCondition",
+      "entities": []
+    },
+    {
+      "text": "What is the rain volume in sonoma county ?",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 27,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "temperature of delhi in celsius please",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 15,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "Get the forcast for me",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "What is the weather in redmond ?",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 23,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "forecast in celcius",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "Provide me by toronto weather please",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 14,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "will it be raining in ranchi",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 22,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "Show me the forecast at alabama",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 24,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "book me a seat on a bus leaving nyc to boston .",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "fatima luas stop dublin please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I will not visit the Musee du Louvre",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "bayonne yellow cab please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book me on an amtrak from here to dc",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Reserve on pace bus transportation",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "septa bus please",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I want to catch bus route twelve tamu",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book 5 tickets for the city transit .",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I want to take bus 240",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I want to catch bus number 4 route",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "soliciting today ' s weather",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "\" I need to know the temperature at bangor , sme  \"",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "\" Tell me perth weather , sclimate & temperature at australia  \"",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 10,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "Get the weather at saint george utah",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 19,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "Get for me the weather conditions in Sonoma County",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 37,
+          "endPos": 49
+        }
+      ]
+    },
+    {
+      "text": "was last year about this time as wet as it is now in the south ?",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 57,
+          "endPos": 61
+        }
+      ]
+    },
+    {
+      "text": "what ' s the weather going to be like in Hawaii ?",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 41,
+          "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "I want to know the temperature at death valley",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 34,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "What will the weather be tomorrow in accord new york ?",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 37,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "What is the weather today at 10 day durham ?",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 36,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "what ' s the weather like in minneapolis",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 29,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "how far from manchester airport",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Get a translink for me",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Please reserve for me a single sea view room at hilton paris",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I want to get a gatorade coupon",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I want to get pepcid coupons",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "I want to catch bus route 221",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "cancel i ' m hungry",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "cancel cancel i ' m hungry",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "bring me two beers",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 13,
+          "endPos": 17
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 9,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "what the fuck do you think",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "wow, very nice job",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "check in the internet how old is the universe i request",
+      "intent": "Request",
+      "entities": []
+    },
+    {
+      "text": "i strongly request that you google it",
+      "intent": "Request",
+      "entities": []
+    },
+    {
+      "text": "i demand that you perform this action",
+      "intent": "Request",
+      "entities": []
+    },
+    {
+      "text": "i deman that you bring me a beer",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 28,
+          "endPos": 31
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 26,
+          "endPos": 31
+        }
+      ]
+    },
+    {
+      "text": "i strongly demand that you bring me a beer",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 38,
+          "endPos": 41
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 36,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "i request that you bring me a beer",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 30,
+          "endPos": 33
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 28,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "with that we will finish",
+      "intent": "Exit",
+      "entities": []
+    },
+    {
+      "text": "how is the life going?",
+      "intent": "HowAreYou",
+      "entities": []
+    },
+    {
+      "text": "could you bring it here?",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 16,
+          "endPos": 17
+        }
+      ]
+    },
+    {
+      "text": "bring me beer right now",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 9,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "i strongly demand bring me beer right now",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 27,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "artificial intelligence i need a beer.",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 33,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "how bring me a beer?",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 15,
+          "endPos": 18
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 13,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "there is no need thank you so much.",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "how i screwed up the month that you bring me a beer right now?",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 47,
+          "endPos": 50
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 45,
+          "endPos": 50
+        }
+      ]
+    },
+    {
+      "text": "say hello.",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "how i didn't bring me beer right now?",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 22,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "how what's the weather like right now?",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "i don't mind that you bring me a beer right now.",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 33,
+          "endPos": 36
+        }
+      ]
+    },
+    {
+      "text": "could you be so kind to bring?",
+      "intent": "Bring",
+      "entities": []
+    },
+    {
+      "text": "we are so close.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what is a weather today",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "could you kindly bring it here?",
+      "intent": "Bring",
+      "entities": []
+    },
+    {
+      "text": "ok so what is the weather forecast for today.",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "thank you for presentation hell.",
+      "intent": "Exit",
+      "entities": []
+    },
+    {
+      "text": "how was the weather like?",
+      "intent": "Weather.GetCondition",
+      "entities": []
+    },
+    {
+      "text": "could you bring me a beer?",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 21,
+          "endPos": 24
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 19,
+          "endPos": 24
+        }
+      ]
+    },
+    {
+      "text": "how strong with them and a beer for me?",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 27,
+          "endPos": 30
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 25,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "that's ok thank you for your help all.",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "i doesn't make sense",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "i don't understand...",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "there is no need to thank you so much for your help.",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "i need brandy.",
+      "intent": "Bring",
+      "entities": []
+    },
+    {
+      "text": "i still get them and bring me beer right now.",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 30,
+          "endPos": 33
+        }
+      ]
+    },
+    {
+      "text": "how please bring me a beer?",
+      "intent": "Bring",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 22,
+          "endPos": 25
+        },
+        {
+          "entity": "Drinks.DrinkNumber",
+          "startPos": 20,
+          "endPos": 25
+        }
+      ]
+    },
+    {
+      "text": "hello all.",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "i strongly demand a beer.",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 20,
+          "endPos": 23
+        }
+      ]
+    },
+    {
+      "text": "what day hell are you trying to tell me you stupid machine?",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "dasdds",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "because i'm.",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "there is no need to thank you for your help.",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "say hello how.",
+      "intent": "Hello",
+      "entities": []
+    },
+    {
+      "text": "what's again?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i strongly them and bring me a beer right now.",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 31,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "could you bring me the i insist right now?",
+      "intent": "Request",
+      "entities": []
+    },
+    {
+      "text": "how i demand a beer now?",
+      "intent": "Request",
+      "entities": [
+        {
+          "entity": "Drinks.Drink",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "how please bring me a?",
+      "intent": "Bring",
+      "entities": []
+    },
+    {
+      "text": "thank you so much for your help.",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "so what's the weather forecast for to.",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "there's no need.",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "i'm gonna f****** kill you.",
+      "intent": "BadJob",
+      "entities": []
+    },
+    {
+      "text": "i'm fine thank you.",
+      "intent": "GoodJob",
+      "entities": []
+    },
+    {
+      "text": "jp20",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "who is big?",
+      "intent": "None",
+      "entities": []
+    }
+  ]
+}
